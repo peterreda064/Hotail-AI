@@ -4,6 +4,7 @@ import 'package:hotel/modules/register_screen.dart';
 import 'package:hotel/shared/components/compantants.dart';
 import 'package:hotel/shared/style/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../layout/home_layout.dart';
 
@@ -11,6 +12,7 @@ class HotelLoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ class HotelLoginScreen extends StatelessWidget {
                   const Text(
                     'Sign in',
                     style:
-                        TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+                    TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 20,
@@ -39,7 +41,7 @@ class HotelLoginScreen extends StatelessWidget {
                   const Text(
                     'Welcome Back',
                     style:
-                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                    TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 20,
@@ -95,39 +97,35 @@ class HotelLoginScreen extends StatelessWidget {
                     radius: 20,
                     color: buttom,
                     onPressed: () async {
-                      FirebaseAuth.instance.signInWithEmailAndPassword
-                        (email: emailController.text, password: passwordController.text)
-                      .then((value) { Fluttertoast.showToast(msg: "Login Successful"),
-                        {NavigateTo(HomeLayout(), context);}})
-                      .on FirebaseAuthException catch (error) {
-        switch (error.code) {
-          case "invalid-email":
-            errorMessage = "Your email address appears to be malformed.";
+                      var user = FirebaseAuth.instance
+                          .signInWithEmailAndPassword
+                        (email: emailController.text,
+                          password: passwordController.text)
+                          .then((value) {
+                        {
+                          NavigateTo(HomeLayout(), context);
+                        }
+                      })
+                          .onError((error, stackTrace) {
+                        print("Error ${error.toString()}");
 
-            break;
-          case "wrong-password":
-            errorMessage = "Your password is wrong.";
-            break;
-          case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
-            break;
-          case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
-            break;
-          case "too-many-requests":
-            errorMessage = "Too many requests";
-            break;
-          case "operation-not-allowed":
-            errorMessage = "Signing in with Email and Password is not enabled.";
-            break;
-          default:
-            errorMessage = "An undefined Error happened.";
-        }
-        Fluttertoast.showToast(msg: errorMessage!);
-        print(error.code);
-      },
-                      if (formKey.currentState!.validate());
-                      },
+                      });
+                      if (user == null) {
+                        Fluttertoast.showToast(
+                            msg: "Wrong email or password",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0
+
+                        );
+                      }
+
+                      if (formKey.currentState!.validate()
+                      );
+                    },
                   ),
 
                   Row(
