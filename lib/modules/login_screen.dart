@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,7 +8,7 @@ import 'package:hotel/shared/style/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../layout/home_layout.dart';
-import 'main_screens/home_screen.dart';
+
 
 class HotelLoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
@@ -106,8 +107,9 @@ class HotelLoginScreen extends StatelessWidget {
                        await FirebaseAuth.instance.signInWithEmailAndPassword(email:emailController.text , password: passwordController.text)
                           .then((value) => {
                       Fluttertoast.showToast(msg: "Login Successful"),
-                      Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                       Navigator.pushAndRemoveUntil(
+                       context, MaterialPageRoute(builder: (context) =>  HomeLayout()),
+                       (Route<dynamic> route) => false,),
                       });
                       }
                         on FirebaseAuthException catch (error) {
