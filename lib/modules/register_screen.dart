@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hotel/layout/home_layout.dart';
+import 'package:hotel/modules/main_screens/profile_screen.dart';
 import 'package:hotel/shared/components/compantants.dart';
 import 'package:hotel/shared/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'login_screen.dart';
+
 class HotelRegisterScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
@@ -14,8 +15,10 @@ class HotelRegisterScreen extends StatelessWidget {
   var phoneController = TextEditingController();
   var nameController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    CollectionReference IDS = FirebaseFirestore.instance.collection('IDS');
     return Scaffold(
       backgroundColor: const Color(0xffD3DCDE),
       appBar: AppBar(
@@ -131,18 +134,28 @@ class HotelRegisterScreen extends StatelessWidget {
                     height: 35,
                   ),
                   defultbutton(
-                    text:'register',
+                    text: 'register',
                     radius: 20,
                     color: buttom,
-                    onPressed: ()
-                    {FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text,
-                        password: passwordController.text).then((value)  {
-                      print("Created New Account");
-                      NavigateTo(HotelLoginScreen(), context);} )
-                        .onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
-                    });
-                    if (formKey.currentState!.validate());
+                    onPressed: () {
+                      IDS.add({
+                        'email': emailController.text,
+                        'pass': passwordController.text,
+                        'name': nameController.text,
+                        'phone': phoneController.text,
+                      });
+                      FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text)
+                          .then((value) {
+                        print("Created New Account");
+                        NavigateTo(HotelLoginScreen(), context);
+                      }).onError((error, stackTrace) {
+                        print("Error ${error.toString()}");
+                      });
+
+                      if (formKey.currentState!.validate()) ;
                     },
                   ),
                 ],

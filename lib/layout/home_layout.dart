@@ -19,7 +19,7 @@ class _HomeLayoutState extends State<HomeLayout> {
   List<Widget> screens = [
     HomeScreen(),
     // const LocationScreen(),
-    const ProfileScreen(),
+     ProfileScreen(),
     const ComplainsScreen(),
     //const SettingsScreen(),
     const SettingPageUi(),
