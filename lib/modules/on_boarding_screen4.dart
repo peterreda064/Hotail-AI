@@ -47,7 +47,10 @@ class _HotelOnBoardingState extends State<HotelOnBoarding> {
         actions: [
           TextButton(
             onPressed: () {
-              NavigateTo(HotelLoginScreen(), context);
+//               NavigateTo(HotelLoginScreen(), context);
+                                Navigator.pushAndRemoveUntil(
+                       context, MaterialPageRoute(builder: (context) =>  HotelLoginScreen()),
+                       (Route<dynamic> route) => false,),
             },
             child: const Text(
               'Skip',
@@ -99,7 +102,10 @@ class _HotelOnBoardingState extends State<HotelOnBoarding> {
                   backgroundColor: buttom,
                   onPressed: () {
                     if (isLast!) {
-                      NavigateTo(HotelLoginScreen(), context);
+//                       NavigateTo(HotelLoginScreen(), context);
+                               Navigator.pushAndRemoveUntil(
+                       context, MaterialPageRoute(builder: (context) =>  HotelLoginScreen()),
+                       (Route<dynamic> route) => false,),
                     } else {
                       controller.nextPage(
                           duration: const Duration(milliseconds: 750),
