@@ -150,7 +150,10 @@ class HotelRegisterScreen extends StatelessWidget {
                               password: passwordController.text)
                           .then((value) {
                         print("Created New Account");
-                        NavigateTo(HotelLoginScreen(), context);
+              
+                                    Navigator.pushAndRemoveUntil(
+                       context, MaterialPageRoute(builder: (context) =>  HotelLoginScreen()),
+                       (Route<dynamic> route) => false,),
                       }).onError((error, stackTrace) {
                         print("Error ${error.toString()}");
                       });
