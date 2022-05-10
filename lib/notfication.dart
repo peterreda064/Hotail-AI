@@ -2,14 +2,17 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 
 void createDiscoNotification() async {
   await AwesomeNotifications().createNotification(
+
     actionButtons: [
 
       NotificationActionButton(
+
         key: 'لتفاصيل اضغط هنا',
         label: 'لتفاصيل اضغط هنا',
       )
 
     ],
+
     content: NotificationContent(
       id: 1,
       channelKey: 'basic_channel',
@@ -19,6 +22,7 @@ void createDiscoNotification() async {
       bigPicture: 'asset://assets/images/disco.png',
 
       notificationLayout: NotificationLayout.BigPicture,
+
 
     ),
   );
